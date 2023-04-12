@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState,useEffect} from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -16,16 +16,23 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-//import Icon from '@mdi/react';
 import { mdiDumbbell } from '@mdi/js';
-//import InboxIcon from '@mui/icons-material/MoveToInbox';
-//import MailIcon from '@mui/icons-material/Mail';
-
 import Icon from '@mdi/react';
 import { mdiAccount } from '@mdi/js';
+import './CustomerList';
+import Customerapp from './CustomerList';
+import Trainings from './Trainings';
+import './Trainings'
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  Navigate
+  } from "react-router-dom";
 
-
-
+//code for the drawer adapted from following source
+//https://mui.com/material-ui/react-drawer/#drawer
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -85,71 +92,88 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
-  return (
+
+  return(
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Personal Trainer App
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
+    <CssBaseline />
+    <AppBar position="fixed" open={open}>
+      <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          onClick={handleDrawerOpen}
+          edge="start"
+          sx={{ mr: 2, ...(open && { display: 'none' }) }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" noWrap component="div">
+          Personal Trainer App
+        </Typography>
+      </Toolbar>
+    </AppBar>
+    <Drawer
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        '& .MuiDrawer-paper': {
           width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {['Trainings', 'Customers'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ?  
-                  <Icon path={mdiDumbbell} 
-                  size={1.5} 
-                  color="black"/>
-                  :
-                  <Icon path={mdiAccount}
-                      title="User Profile"
-                      size={1.5}
-                      color="blue"/> 
-                      }
-                </ListItemIcon>
-                <ListItemText primary={text} />
+          boxSizing: 'border-box',
+        },
+      }}
+      variant="persistent"
+      anchor="left"
+      open={open}
+    >
+      <DrawerHeader>
+        <IconButton onClick={handleDrawerClose}>
+          {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
+      </DrawerHeader>
+      <Divider />
+      <List>
+          <ListItem>
+            <ListItemButton component="a" href="/Trainings">
+              <ListItemIcon>
+                {  
+                //material iu icons source https://mui.com/material-ui/icons/
+                //mdi icons source https://pictogrammers.com/library/mdi/
+                <Icon path={mdiDumbbell} 
+                size={1.5} 
+                color="black"/>
+                 }
+              </ListItemIcon>
+              <ListItemText primary="Trainings" />
+              <ListItemText  />
               </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-       
-      </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
-        
-      </Main>
-    </Box>
-  );
+          </ListItem>
+          <ListItem>
+            <ListItemButton component="a" href="/CustomerList">
+              <ListItemIcon>
+                {  
+                //material iu icons source https://mui.com/material-ui/icons/
+                //mdi icons source https://pictogrammers.com/library/mdi/
+                <Icon path={mdiAccount}
+                size={1.5}
+                color="blue"/> 
+                 }
+              </ListItemIcon>
+                <ListItemText primary="Customers" />
+                <ListItemText/>
+              </ListItemButton>
+          </ListItem>
+      </List>
+     
+    </Drawer>
+    <Main open={open}>
+      <DrawerHeader />
+      <BrowserRouter className="navigate">
+      <Routes>
+            <Route path="/CustomerList" element={<Customerapp />} />
+            <Route path="/Trainings" element={<Trainings />} />
+        </Routes>
+          </BrowserRouter>
+    </Main>
+  </Box>
+  ); 
 }

@@ -5,27 +5,25 @@ import 'ag-grid-community/styles/ag-theme-material.css';
 import { useRef } from 'react';
 import Button from '@mui/material/Button';
 import { Snackbar } from '@mui/material';
-
-export default function Customerapp(){
-    const[customers,setCustomers]= useState([]);
+import dayjs from 'dayjs';
+export default function Trainings(){
+    const[trainings,setTrainings]= useState([]);
    // const gridRef = useRef();
     useEffect(() => {
-        getCustomers()},[]);
+        getTrainings()},[]);
 //const[open,setOpen]=useState(false);
 
     const[columnDefs]=useState([
         //{field:'id',sortable:true,filtering:true},
-        {field:'firstname',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:150},
-        {field:'lastname',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
-        {field:'streetaddress',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
-        {field:'postcode',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:150},
-        {field:'city',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:150},
-        {field:'email',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
-        {field:'phone',sortable:true,filtering:true, filter: 'agTextColumnFilter'}
+        {field:'date',valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD HH:mm'),
+         headerName: 'Date',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
+        {field:'duration',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
+        {field:'activity',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
+        {field:'customer.firstname',headerName: 'Customer',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
     ])
 
-    const getCustomers = () =>{
-        fetch('http://traineeapp.azurewebsites.net/api/customers')
+    const getTrainings = () =>{
+        fetch('https://traineeapp.azurewebsites.net/gettrainings')
         .then(response=>{
             if(response.ok){
                 return response.json();
@@ -33,14 +31,15 @@ export default function Customerapp(){
                 alert('Something went wrong');
             }
         })
-        .then(data => setCustomers(data.content))
+        .then(data => setTrainings(data))
         .catch(err=> console.error(err))
     }
+    
 
     return(
           <>
           <h3 style={{margin:'auto', textAlign:'left', width:'90%'}}>
-            Customer Information
+            Training Sessions
           </h3>
           <hr style={{ width:'90%'}}></hr>
         <div className='ag-theme-material'
@@ -50,7 +49,7 @@ export default function Customerapp(){
               //  ref={gridRef}
               //  onGridReady={ params => gridRef.current = params.api }
                 rowSelection="single"
-                rowData={customers}
+                rowData={trainings}
                 animateRows= {true}
                 columnDefs={columnDefs}
                 pagination={true}
