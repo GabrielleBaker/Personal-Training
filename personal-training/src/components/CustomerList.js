@@ -5,8 +5,9 @@ import 'ag-grid-community/styles/ag-theme-material.css';
 import Button from '@mui/material/Button';
 import { Snackbar } from '@mui/material';
 import AddCustomer from './AddCustomer';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditCustomer from './EditC'
+import AddTraining from './AddTrainings';
 
  function Customerapp(){
     const[customers,setCustomers]= useState([]);
@@ -14,32 +15,45 @@ import EditCustomer from './EditC'
         getCustomers()},[]);
     const[open,setOpen]=useState(false);
 
-
+//ag grid columns
     const[columnDefs]=useState([
-        {field:'firstname',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:150},
-        {field:'lastname',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:150},
-        {field:'streetaddress',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
-        {field:'postcode',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:150},
+        {field:'firstname',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:130},
+        {field:'lastname',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:130},
+        {field:'streetaddress',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:180},
+        {field:'postcode',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:130},
         {field:'city',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:150},
-        {field:'email',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:150},
-        {field:'phone',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:150},
+        {field:'email',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:180},
+        {field:'phone',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:130},
         {cellRenderer:params=>
             <EditCustomer updateCustomer={updateCustomer} params={params.data}/>
-                , width:100, filtering:false,sortable:false},   
+                , width:80, filtering:false,sortable:false},   
         {cellRenderer: params=>
             <Button 
-                size='small' 
                 color='error'
                 onClick={()=> deleteCustomer(params)}
             >
-                Delete
+               <DeleteIcon size={1}/>
                 </Button>
+                , width:80, filtering:false,sortable:false},
+        {cellRenderer: params=>
+            <AddTraining saveTraining={saveTraining} params={params.data}/>
                 , width:120, filtering:false,sortable:false},
          
     ])
+    const saveTraining=(training)=>{
+        fetch('http://traineeapp.azurewebsites.net/api/trainings',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(training)
+        }
+        )
+        .then(res=> getCustomers())
+        .catch(err=>console.error(err))
+    }
 
-
-
+//get data from api to populate table
     const getCustomers = () =>{
         fetch('http://traineeapp.azurewebsites.net/api/customers')
         .then(response=>{
@@ -53,7 +67,7 @@ import EditCustomer from './EditC'
         .catch(err=> console.error(err))
     }
 
-
+//save a new customer
     const saveCustomer=(customer)=>{
         fetch('http://traineeapp.azurewebsites.net/api/customers',{
             method: 'POST',
@@ -66,7 +80,7 @@ import EditCustomer from './EditC'
         .then(res=> getCustomers())
         .catch(err=>console.error(err))
     }
-
+//update an existing customer -use PUT method-
     const updateCustomer=(customer,link)=>{
         fetch(link,{
             method: 'PUT',
@@ -79,10 +93,11 @@ import EditCustomer from './EditC'
         .then(res=> getCustomers())
         .catch(err=>console.error(err))
     }
-
+//delete a customer, link is params which is sent in column defs
     const deleteCustomer =(link)=>{
-       // console.log(link);
+        //confirmation window checks with user before deletion
         if(window.confirm('Are you sure?')){
+            //follow this path to access the link which contains customer id
         fetch(link.data.links[0].href,{method:'DELETE'})
         .then(response=>{
             if(response.ok){

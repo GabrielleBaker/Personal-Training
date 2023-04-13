@@ -5,7 +5,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-  
+import Icon from '@mdi/react';
+import { mdiAccountEdit } from '@mdi/js';
 export default function EditCustomer(props){
     const [open, setOpen] = React.useState(false);
     const [customer, setCustomer]= React.useState({
@@ -49,8 +50,8 @@ export default function EditCustomer(props){
       
     return(
     <div>
-      <Button size="small" onClick={handleClickOpen}>
-        Edit
+      <Button  onClick={handleClickOpen}>
+      <Icon path={mdiAccountEdit} size={1.3} />
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Customer</DialogTitle>

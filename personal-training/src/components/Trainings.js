@@ -2,25 +2,52 @@ import React, {useState,useEffect} from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useRef } from 'react';
 import Button from '@mui/material/Button';
 import { Snackbar } from '@mui/material';
 import dayjs from 'dayjs';
 export default function Trainings(){
     const[trainings,setTrainings]= useState([]);
-   // const gridRef = useRef();
+
     useEffect(() => {
         getTrainings()},[]);
-//const[open,setOpen]=useState(false);
+const[open,setOpen]=useState(false);
 
     const[columnDefs]=useState([
-        //{field:'id',sortable:true,filtering:true},
         {field:'date',valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD HH:mm'),
          headerName: 'Date',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
         {field:'duration',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
         {field:'activity',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
-        {field:'customer.firstname',headerName: 'Customer',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
+        {field:'customer.firstname',headerName: 'Firstname',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
+        {field:'customer.lastname',headerName: 'Lastname',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
+        {cellRenderer: params=>
+            <Button 
+                color='error'
+                onClick={()=> deleteTraining(params)}
+            >
+               <DeleteIcon size={1}/>
+                </Button>
+                , width:80, filtering:false,sortable:false},
     ])
+
+    //delete a training, link is params which is sent in column defs
+    const deleteTraining =(link)=>{
+       console.log(link.data.id);
+        if(window.confirm('Are you sure?')){
+        fetch('https://traineeapp.azurewebsites.net/trainings/'+link.data.id,{
+            method:'DELETE'})
+        .then(response=>{
+            if(response.ok){
+                setOpen(true);
+                getTrainings();
+            }
+            else{
+                alert('Something went wrong in deletion');
+            }
+        })
+        .catch(err=> console.log(err))
+    }}
 
     const getTrainings = () =>{
         fetch('https://traineeapp.azurewebsites.net/gettrainings')
