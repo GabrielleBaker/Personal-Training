@@ -3,19 +3,20 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useRef } from 'react';
 import Button from '@mui/material/Button';
 import { Snackbar } from '@mui/material';
 import dayjs from 'dayjs';
+
 export default function Trainings(){
     const[trainings,setTrainings]= useState([]);
 
     useEffect(() => {
         getTrainings()},[]);
-const[open,setOpen]=useState(false);
+
+    const[open,setOpen]=useState(false);
 
     const[columnDefs]=useState([
-        {field:'date',valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD HH:mm'),
+        {field:'date',valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD'),
          headerName: 'Date',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
         {field:'duration',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
         {field:'activity',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
@@ -31,11 +32,11 @@ const[open,setOpen]=useState(false);
                 , width:80, filtering:false,sortable:false},
     ])
 
-    //delete a training, link is params which is sent in column defs
+    //delete a training
     const deleteTraining =(link)=>{
        console.log(link.data.id);
         if(window.confirm('Are you sure?')){
-        fetch('https://traineeapp.azurewebsites.net/trainings/'+link.data.id,{
+        fetch('http://traineeapp.azurewebsites.net/api/trainings/'+link.data.id,{
             method:'DELETE'})
         .then(response=>{
             if(response.ok){
@@ -83,7 +84,12 @@ const[open,setOpen]=useState(false);
                 paginationPageSize={10}
             />
         </div>
-        
+        <Snackbar
+                    open={open}
+                    message="Training deleted successfully"
+                    autoHideDuration={3000}
+                    onClose={()=>setOpen(false)}
+                />
         </>
     );
 }

@@ -7,17 +7,25 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Icon from '@mdi/react';
 import { mdiNotePlusOutline } from '@mdi/js';
-  
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
+
 export default function AddTraining(props){
     const [open, setOpen] = React.useState(false);
 
    //get customer from props to display name in new training dialog
-    const [customer,setCustomer]=React.useState({
+    const [customerdetail,setCustomerdetail]=React.useState({
         firstname:'', 
         lastname:'', 
+        streetaddress:'', 
+        postcode:'', 
+        city:'', 
+        email:'', 
+        phone:''
     });
-    //create link to customer id
-    const[customerLink,setCustomerLink]=React.useState('');
     
     const[training,setTraining]= React.useState({
         date:'',
@@ -25,17 +33,21 @@ export default function AddTraining(props){
         activity:'',
         customer:'',
     });
-
+    const customerLink= [props.params.links[0].href];
+    // 
+    
     const handleClickOpen = () => {
         setOpen(true);
-        setCustomerLink(props.params.links[0].href)
-        setCustomer({
+        setCustomerdetail({
             firstname:props.params.firstname, 
             lastname:props.params.lastname,
+            streetaddress:props.params.streetaddress,
+            postcode:props.params.postcode,
+            city:props.params.city,
+            email:props.params.email,
+            phone:props.params.phone
           })
-          //issues setting the link as customer
-          setTraining({[training.customer] : customerLink})
-          console.log(training.customer)
+          setTraining({...training.customer, customerLink})
       };
     
       const handleClose = () => {
@@ -52,7 +64,9 @@ export default function AddTraining(props){
         props.saveTraining(training);
         handleClose();
       }
-
+      const ChangeDate=(date)=>{
+        setTraining({...training.date,date})
+      }
       
     return(
     <div>
@@ -65,24 +79,34 @@ export default function AddTraining(props){
             <TextField
                     autoFocus
                     InputProps={{
-                        readOnly: true,}}
+                        disabled: true,}}
+                    margin="dense"
+                    name="cust"
+                    value={customerdetail.firstname + " "+ customerdetail.lastname}
+                    label="Customer Name"
+                    fullWidth
+                />
+                <TextField
+                    InputProps={{
+                        disabled: true,}}
                     margin="dense"
                     name="customer"
-                    value={customer.firstname + " "+ customer.lastname}
+                    value={props.params.links[0].href}
                     label="Customer"
                     fullWidth
                 />
-                <TextField
-                    
-                    margin="dense"
-                    name="date"
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={['DatePicker']}>
+                    <DatePicker 
+                    label="Date" 
+                    name='date'
                     value={training.date}
-                    onChange={e=>handleInputChange(e)}
-                    label="Date"
-                    fullWidth
-                />
+                    onChange={date => ChangeDate(date)}></DatePicker>
+                    </DemoContainer>
+                    </LocalizationProvider>
+                  
                 <TextField
-                    
+                    type="number"
                     margin="dense"
                     name="duration"
                     value={training.duration}
