@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect,useRef} from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
@@ -8,6 +8,11 @@ import AddCustomer from './AddCustomer';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditCustomer from './EditC'
 import AddTraining from './AddTrainings';
+import { ModuleRegistry } from '@ag-grid-community/core';
+import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
+import { CsvExportModule } from '@ag-grid-community/csv-export';
+
+ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
 
  function Customerapp(){
     const[customers,setCustomers]= useState([]);
@@ -95,7 +100,6 @@ import AddTraining from './AddTrainings';
     }
 //delete a customer, link is params which is sent in column defs
     const deleteCustomer =(link)=>{
-        //confirmation window checks with user before deletion
         if(window.confirm('Are you sure?')){
             //follow this path to access the link which contains customer id
         fetch(link.data.links[0].href,{method:'DELETE'})
@@ -110,15 +114,38 @@ import AddTraining from './AddTrainings';
         })
         .catch(err=> console.log(err))
     }}
+    //EXPORT functionality
+   
+    let gridApi;
 
+    const onGridReady=params=>{
+        gridApi=params.api
+       // console.dir(gridApi)
+    }
+
+    function onExportClick() {
+       // console.dir(gridApi)
+        gridRef.current.api.exportDataAsCsv();
+      //  gridApi.exportDataAsCsv();
+      }
+      const gridRef = useRef();
     return(
           <>
           <h3 style={{margin:'auto', textAlign:'left', width:'90%'}}>
             Customer Information
           </h3>
           <div style={{width:'90%'}}>
+
           <AddCustomer saveCustomer={saveCustomer}/>
-          
+
+          <Button 
+            style={{margin:10,padding:10,float:'right'}} 
+            variant="contained" 
+            color='secondary' 
+            onClick={() => onExportClick()}>
+             Download CSV file
+        </Button>
+
           </div>
           <hr style={{ width:'90%'}}></hr>
         <div className='ag-theme-material'
@@ -131,7 +158,10 @@ import AddTraining from './AddTrainings';
                 columnDefs={columnDefs}
                 pagination={true}
                 paginationPageSize={10}
+                onGridReady={onGridReady} 
+                ref={gridRef}
             />
+        
         </div>
         <Snackbar
                     open={open}
