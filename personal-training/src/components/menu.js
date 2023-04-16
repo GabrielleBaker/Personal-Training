@@ -22,14 +22,16 @@ import { mdiAccount } from '@mdi/js';
 import './CustomerList';
 import Customerapp from './CustomerList';
 import Trainings from './Trainings';
-import './Trainings'
+import './Trainings';
+import './HomePage';
+import HomePage from './HomePage';
 import {
   BrowserRouter,
   Routes,
   Route,
   Link,
-  Navigate
   } from "react-router-dom";
+  
 
 //code for the drawer adapted from following source
 //https://mui.com/material-ui/react-drawer/#drawer
@@ -92,11 +94,18 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+<BrowserRouter className="navigate">
+        <Link to="/CustomerList">Customers</Link>{' '}
+        <Link to="/Trainings">Training Sessions</Link>{' '}
+        <Link to=' '>HomePage</Link>{' '}
+        <Link to='/'>HomePage</Link>{' '}
+        <Link to='/HomePage'>HomePage</Link>{' '}
+        </BrowserRouter>
 
   return(
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' , backgroundColor: '#ffe6f7'}} >
     <CssBaseline />
-    <AppBar position="fixed" open={open}>
+    <AppBar position="fixed" open={open} style={{ background: '#ff66b3' }} >
       <Toolbar>
         <IconButton
           color="inherit"
@@ -107,7 +116,7 @@ export default function PersistentDrawerLeft() {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
+        <Typography variant="h6" color="white" noWrap component="a" href="/HomePage">
           Personal Trainer App
         </Typography>
       </Toolbar>
@@ -140,7 +149,7 @@ export default function PersistentDrawerLeft() {
                 //mdi icons source https://pictogrammers.com/library/mdi/
                 <Icon path={mdiDumbbell} 
                 size={1.5} 
-                color="black"/>
+                color="#e60099"/>
                  }
               </ListItemIcon>
               <ListItemText primary="Trainings" />
@@ -155,7 +164,7 @@ export default function PersistentDrawerLeft() {
                 //mdi icons source https://pictogrammers.com/library/mdi/
                 <Icon path={mdiAccount}
                 size={1.5}
-                color="blue"/> 
+                color="#ff33bb"/> 
                  }
               </ListItemIcon>
                 <ListItemText primary="Customers" />
@@ -169,6 +178,8 @@ export default function PersistentDrawerLeft() {
       <DrawerHeader />
       <BrowserRouter className="navigate">
       <Routes>
+            <Route path="/HomePage" element={<HomePage />} />
+            <Route exact path="/" element={<HomePage />}/>
             <Route path="/CustomerList" element={<Customerapp />} />
             <Route path="/Trainings" element={<Trainings />} />
         </Routes>

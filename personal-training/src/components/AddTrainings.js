@@ -70,7 +70,7 @@ export default function AddTraining(props){
       
     return(
     <div>
-      <Button style={{margin:10,padding:10,float:'right'}} variant="contained" color='primary' onClick={handleClickOpen}>
+      <Button  color='primary' onClick={handleClickOpen}>
       <Icon path={mdiNotePlusOutline} size={1} />
       </Button>
       <Dialog open={open} onClose={handleClose}>

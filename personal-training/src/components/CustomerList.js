@@ -1,4 +1,4 @@
-import React, {useState,useEffect,useRef} from 'react';
+import React, {useState,useEffect,useRef, Children} from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
@@ -22,28 +22,90 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
 
 //ag grid columns
     const[columnDefs]=useState([
-        {field:'firstname',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:130},
-        {field:'lastname',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:130},
-        {field:'streetaddress',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:180},
-        {field:'postcode',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:130},
-        {field:'city',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:150},
-        {field:'email',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:180},
-        {field:'phone',sortable:true,filtering:true, filter: 'agTextColumnFilter',width:130},
-        {cellRenderer:params=>
-            <EditCustomer updateCustomer={updateCustomer} params={params.data}/>
-                , width:80, filtering:false,sortable:false},   
-        {cellRenderer: params=>
-            <Button 
-                color='error'
-                onClick={()=> deleteCustomer(params)}
-            >
-               <DeleteIcon size={1}/>
-                </Button>
-                , width:80, filtering:false,sortable:false},
-        {cellRenderer: params=>
-            <AddTraining saveTraining={saveTraining} params={params.data}/>
-                , width:120, filtering:false,sortable:false},
-         
+            {
+                field:'firstname',
+                headerName:'Firstname',
+                sortable:true,
+                filtering:true, 
+                filter: 'agTextColumnFilter',
+                width:130
+            },
+            {
+                field:'lastname',
+                headerName:'Lastname',
+                sortable:true,
+                filtering:true, 
+                filter: 'agTextColumnFilter',
+                width:130
+            },
+            {
+                field:'streetaddress',
+                headerName:'Street Address',
+                sortable:true,
+                filtering:true, 
+                filter: 'agTextColumnFilter',
+                width:180
+            },
+            {
+                field:'postcode',
+                headerName:'Post Code',
+                sortable:true,
+                filtering:true, 
+                filter: 'agTextColumnFilter',
+                width:130
+            },
+            {
+                field:'city',
+                headerName:'City',
+                sortable:true,
+                filtering:true, 
+                filter: 'agTextColumnFilter',
+                width:150
+            },
+            {
+                field:'email',
+                headerName:'Email',
+                sortable:true,
+                filtering:true, 
+                filter: 'agTextColumnFilter',
+                width:180
+            },
+            {
+                field:'phone',
+                headerName:'Phone',
+                sortable:true,
+                filtering:true, 
+                filter: 'agTextColumnFilter',
+                width:130
+            },
+            {cellRenderer:params=>
+                <EditCustomer 
+                updateCustomer={updateCustomer} 
+                params={params.data}/>
+                    ,
+                    width:80, 
+                    filtering:false,
+                    sortable:false},   
+            {cellRenderer: params=>
+                <Button 
+                    color='error'
+                    onClick={()=> deleteCustomer(params)}
+                >
+                <DeleteIcon size={1}/>
+                    </Button>
+                    , 
+                    width:80, 
+                    filtering:false,
+                    sortable:false},
+            {cellRenderer: params=>
+                <AddTraining 
+                saveTraining={saveTraining} 
+                params={params.data}/>
+                    , 
+                    width:110, 
+                    filtering:false,
+                    sortable:false
+                },
     ])
     const saveTraining=(training)=>{
         fetch('http://traineeapp.azurewebsites.net/api/trainings',{
@@ -116,6 +178,7 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
     }}
     //EXPORT functionality
    
+    
     let gridApi;
 
     const onGridReady=params=>{
@@ -129,6 +192,7 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
       //  gridApi.exportDataAsCsv();
       }
       const gridRef = useRef();
+      
     return(
           <>
           <h3 style={{margin:'auto', textAlign:'left', width:'90%'}}>
