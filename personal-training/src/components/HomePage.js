@@ -2,35 +2,12 @@ import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Container from '@mui/material/Container';
-import { createTheme } from '@mui/material/styles';
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-    Link,
-    } from "react-router-dom";
-const theme = createTheme({
-    palette: {
-      primary: {
-        light: '#ffccff',
-        main: '#3f50b5',
-        dark: '#002884',
-        contrastText: '#fff',
-      },
-      secondary: {
-        light: '#ff7961',
-        main: '#f44336',
-        dark: '#ba000d',
-        contrastText: '#000',
-      },
-    },
-  });
-
-  <BrowserRouter className="navigate">
-        <Link to="/CustomerList">Customers</Link>{' '}
-        <Link to="/Trainings">Training Sessions</Link>{' '}
-  
-        </BrowserRouter>
+import Weather from './Weather';
+import Box from '@mui/material/Box';
+import Date from './Date';
+import Quote from './Quote';
+import './Quote';
+import Button from '@mui/material/Button';
 
 export default function HomePage(){
     const itemData = [
@@ -42,25 +19,65 @@ export default function HomePage(){
         {
           img: '/customers.jpg',
           title: 'Customers',
-          href:"/Customers"
+          href:"/CustomerList"
         },
+        {
+            img: 'calendar.jpg',
+            title: 'Calendar',
+          },
         {
           img: 'stats2.jpg',
           title: 'Statistics',
         },
-        {
-          img: 'calendar.jpg',
-          title: 'Calendar',
-        }
+        
       ];
+      
     return(
         <div>
-            <h2>Welcome</h2>
-        <Container margins="auto" maxWidth="90%" align="center" >
-            <ImageList sx={{ width: 550, height: 500 }} cols={2} rowHeight={200}>
+            <Container  
+            margins="auto" 
+            maxWidth="90%" 
+           >
+                <h2>Welcome Trainer!</h2>
+            <Box sx={{
+                width:650,
+                margin:'auto',
+                height: 250,
+                backgroundColor: '#ffcce6',
+                borderRadius: '25px'
+                
+            }}><br></br>
+                <Quote/>
+                <Date></Date>
+                <Weather></Weather>
+            </Box>
+       
+        <Container 
+        margins="auto" 
+        maxWidth="90%" 
+        align="center" 
+        sx={{width:800,height: 600, backgroundColor:'#ffcce6', borderRadius: '25px' }}>
+            
+            <ImageList 
+            sx={{ 
+                width: 650, 
+                height: 600,
+                padding:5.5
+                }} 
+                cols={2} 
+                rowHeight={200}>
                 {itemData.map((item) => (
-                <ImageListItem key={item.img} component="a" href={item.href}>
-                    <text>{item.title}</text>
+                <ImageListItem 
+                    key={item.img} 
+                    component="a" 
+                    href={item.href}
+                    sx={{'&:hover': {
+                        backgroundColor: '#ff80c1',
+                        opacity: [0.9, 0.8, 0.7],
+                        }}}>
+                    <text>
+                        {item.title}
+                    </text>
                    <img
                         src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
                         srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
@@ -70,6 +87,7 @@ export default function HomePage(){
                 </ImageListItem>
         ))}
             </ImageList>
+        </Container>
         </Container>
         </div>
        

@@ -208,7 +208,7 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
             color='secondary' 
             onClick={() => onExportClick()}>
              Download CSV file
-        </Button>
+            </Button>
 
           </div>
           <hr style={{ width:'90%'}}></hr>

@@ -1,4 +1,11 @@
+//React imports
 import React, {useState,useEffect} from 'react';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+  } from "react-router-dom";
+//mui imports
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -16,27 +23,25 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { mdiDumbbell } from '@mdi/js';
+import HomeIcon from '@mui/icons-material/Home';
+//mdi icon imports
 import Icon from '@mdi/react';
-import { mdiAccount } from '@mdi/js';
+import {mdiAccount, mdiCalendarMonth, mdiChartLine,mdiDumbbell } from '@mdi/js';
+//compontent imports
 import './CustomerList';
 import Customerapp from './CustomerList';
 import Trainings from './Trainings';
 import './Trainings';
 import './HomePage';
 import HomePage from './HomePage';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  } from "react-router-dom";
-  
+import Quote from './Quote';
+import './Quote';
+
 
 //code for the drawer adapted from following source
 //https://mui.com/material-ui/react-drawer/#drawer
 const drawerWidth = 240;
-
+//drawer handling
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
@@ -82,6 +87,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
+
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -94,13 +100,7 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
-<BrowserRouter className="navigate">
-        <Link to="/CustomerList">Customers</Link>{' '}
-        <Link to="/Trainings">Training Sessions</Link>{' '}
-        <Link to=' '>HomePage</Link>{' '}
-        <Link to='/'>HomePage</Link>{' '}
-        <Link to='/HomePage'>HomePage</Link>{' '}
-        </BrowserRouter>
+  
 
   return(
     <Box sx={{ display: 'flex' , backgroundColor: '#ffe6f7'}} >
@@ -141,6 +141,18 @@ export default function PersistentDrawerLeft() {
       </DrawerHeader>
       <Divider />
       <List>
+      <ListItem>
+            <ListItemButton component="a" href="/HomePage">
+              <ListItemIcon>
+                {  
+                <HomeIcon sx={{ color:"#e60099" ,fontSize: 35}}
+                 />
+                 }
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+              <ListItemText  />
+              </ListItemButton>
+          </ListItem>
           <ListItem>
             <ListItemButton component="a" href="/Trainings">
               <ListItemIcon>
@@ -152,7 +164,7 @@ export default function PersistentDrawerLeft() {
                 color="#e60099"/>
                  }
               </ListItemIcon>
-              <ListItemText primary="Trainings" />
+              <ListItemText primary="Training Log" />
               <ListItemText  />
               </ListItemButton>
           </ListItem>
@@ -160,14 +172,38 @@ export default function PersistentDrawerLeft() {
             <ListItemButton component="a" href="/CustomerList">
               <ListItemIcon>
                 {  
-                //material iu icons source https://mui.com/material-ui/icons/
-                //mdi icons source https://pictogrammers.com/library/mdi/
                 <Icon path={mdiAccount}
                 size={1.5}
-                color="#ff33bb"/> 
+                color="#e60099"/> 
                  }
               </ListItemIcon>
                 <ListItemText primary="Customers" />
+                <ListItemText/>
+              </ListItemButton>
+          </ListItem>
+          <ListItem>
+            <ListItemButton component="a" href="/Calendar">
+              <ListItemIcon>
+                {  
+                <Icon path={mdiCalendarMonth}  
+                size={1.5}
+                color="#e60099"/> 
+                 }
+              </ListItemIcon>
+                <ListItemText primary="Calendar" />
+                <ListItemText/>
+              </ListItemButton>
+          </ListItem>
+          <ListItem>
+            <ListItemButton component="a" href="/Statistics">
+              <ListItemIcon>
+                {  
+                <Icon path={mdiChartLine}
+                size={1.5}
+                color="#e60099"/> 
+                 }
+              </ListItemIcon>
+                <ListItemText primary="Statistics" />
                 <ListItemText/>
               </ListItemButton>
           </ListItem>
@@ -176,12 +212,14 @@ export default function PersistentDrawerLeft() {
     </Drawer>
     <Main open={open}>
       <DrawerHeader />
+      
       <BrowserRouter className="navigate">
       <Routes>
             <Route path="/HomePage" element={<HomePage />} />
             <Route exact path="/" element={<HomePage />}/>
             <Route path="/CustomerList" element={<Customerapp />} />
             <Route path="/Trainings" element={<Trainings />} />
+            <Route path="/Quote" element={<Quote />} />
         </Routes>
           </BrowserRouter>
     </Main>

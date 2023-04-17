@@ -10,7 +10,7 @@ Routes,
 Route,
 Link,
 } from "react-router-dom";
-/*
+
 export default function Nav(){
     return <BrowserRouter className="navigate">
         <Link to="/CustomerList">Customers</Link>{' '}
@@ -18,6 +18,7 @@ export default function Nav(){
         <Link to=' '>HomePage</Link>{' '}
         <Link to='/'>HomePage</Link>{' '}
         <Link to='/HomePage'>HomePage</Link>{' '}
+        <Link to='/Quote'>Quote</Link>{' '}
 
         <Routes>
             <Route path="/CustomerList" element={<Customerapp />} />
@@ -26,4 +27,4 @@ export default function Nav(){
             <Route exact path="/" element={<HomePage />}/>
         </Routes>
         </BrowserRouter>
-}*/
+}
