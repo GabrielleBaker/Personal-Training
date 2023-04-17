@@ -1,4 +1,6 @@
+//React imports
 import React from 'react';
+// Mui imports
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -17,33 +19,41 @@ export default function AddCustomer(props){
         email:'', 
         phone:''
     })
-
+//opening the dialog form
     const handleClickOpen = () => {
         setOpen(true);
       };
-    
-      const handleClose = () => {
+//closing the dialog form    
+    const handleClose = () => {
         setOpen(false);
       };
-      const handleInputChange = (event) =>{
+//mapping the new input to the customer const
+    const handleInputChange = (event) =>{
         setCustomer({...customer,
           [event.target.name]:event.target.value
         })
       }
-
-      const addCustomer = ()=>{
+//uses saveCustomer function from CustomerList page via props
+    const addCustomer = ()=>{
         props.saveCustomer(customer);
         handleClose();
       }
 
       
     return(
-    <div>
-      <Button style={{margin:10,padding:10,float:'right'}} variant="contained" color='primary' onClick={handleClickOpen}>
-        Add customer
+      <div>
+        <Button 
+          sx={{backgroundColor:'#ff4da6', }}
+          style={{margin:10,padding:10,float:'right'}} 
+          variant="contained" 
+          //color='primary' 
+          onClick={handleClickOpen}>
+            Add customer
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Customer</DialogTitle>
+        <DialogTitle>
+          New Customer
+        </DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
@@ -110,8 +120,16 @@ export default function AddCustomer(props){
                 />
             </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={addCustomer}>Save</Button>
+          <Button 
+          sx={{color:'#b3005c'}}
+            onClick={handleClose}>
+              Cancel
+          </Button>
+          <Button  
+          sx={{color:'#33ff33'}}
+            onClick={addCustomer}>
+              Save
+          </Button>
         </DialogActions>
       </Dialog>
         </div>

@@ -1,15 +1,21 @@
+//React imports
 import * as React from 'react';
+//Mui imports
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Container from '@mui/material/Container';
 import Weather from './Weather';
 import Box from '@mui/material/Box';
+//Components
 import Date from './Date';
 import Quotes from './Quotes';
 import './Quotes';
-import Button from '@mui/material/Button';
 
 export default function HomePage(){
+    //image list adapted from: 
+    //https://mui.com/material-ui/react-image-list/
+    
+    //data for imagelist-menu
     const itemData = [
         {
           img: '/training3.jpg',
@@ -35,36 +41,40 @@ export default function HomePage(){
     return(
         <div>
             <Container  
-            margins="auto" 
-            maxWidth="90%" 
+                margins="auto" 
+                maxWidth="90%" 
            >
-                <h2>Welcome Trainer!</h2>
-            <Box sx={{
-                width:750,
-                margin:'auto',
-                height: 350,
-                backgroundColor: '#ffcce6',
-                borderRadius: '25px',
-                padding:2,
-                
-            }}>
-            <h4>Quote of the day:</h4>
-                <Quotes/>
-                <Date></Date>
-                <Weather></Weather>
-            </Box>
+                <h2>Welcome Trainer!</h2> 
+                <Box sx={{
+                    width:750,
+                    margin:'auto',
+                    height: 350,
+                    backgroundColor: '#ffcce6',
+                    borderRadius: '25px',
+                    padding:2, 
+                }}>
+                <h4>Quote of the day:</h4>
+                    <Quotes/>
+                    <Date></Date>
+                    <Weather></Weather>
+                </Box>
        
-        <Container 
-        margins="auto" 
-        maxWidth="90%" 
-        align="center" 
-        sx={{width:800,height: 600, backgroundColor:'#ffcce6', borderRadius: '25px' }}>
-            
+            <Container 
+                margins="auto" 
+                maxWidth="90%" 
+                align="center" 
+                sx={{
+                    width:800,
+                    height: 600, 
+                    backgroundColor:'#ffcce6', 
+                    borderRadius: '25px' 
+                    }}>
+                    
             <ImageList 
-            sx={{ 
-                width: 650, 
-                height: 600,
-                padding:5.5
+                sx={{ 
+                    width: 650, 
+                    height: 600,
+                    padding:5.5
                 }} 
                 cols={2} 
                 rowHeight={200}>

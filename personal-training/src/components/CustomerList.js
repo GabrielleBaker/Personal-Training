@@ -1,26 +1,33 @@
-import React, {useState,useEffect,useRef, Children} from 'react';
+//React imports
+import React, {useState,useEffect,useRef} from 'react';
 import { AgGridReact } from 'ag-grid-react';
+//AgGrid imports
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
-import Button from '@mui/material/Button';
-import { Snackbar } from '@mui/material';
-import AddCustomer from './AddCustomer';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditCustomer from './EditC'
-import AddTraining from './AddTrainings';
 import { ModuleRegistry } from '@ag-grid-community/core';
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import { CsvExportModule } from '@ag-grid-community/csv-export';
+//Mui imports
+import Button from '@mui/material/Button';
+import { Snackbar } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+//Components
+import AddCustomer from './AddCustomer';
+import EditCustomer from './EditC'
+import AddTraining from './AddTrainings';
 
+//necessary for the export functionality 
 ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
 
  function Customerapp(){
     const[customers,setCustomers]= useState([]);
+
     useEffect(() => {
         getCustomers()},[]);
+
     const[open,setOpen]=useState(false);
 
-//ag grid columns
+    //ag grid columns
     const[columnDefs]=useState([
             {
                 field:'firstname',
@@ -80,8 +87,8 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
             },
             {cellRenderer:params=>
                 <EditCustomer 
-                updateCustomer={updateCustomer} 
-                params={params.data}/>
+                    updateCustomer={updateCustomer} 
+                    params={params.data}/>
                     ,
                     width:80, 
                     filtering:false,
@@ -91,22 +98,27 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
                     color='error'
                     onClick={()=> deleteCustomer(params)}
                 >
-                <DeleteIcon size={1}/>
-                    </Button>
+                    <DeleteIcon 
+                        size={1}
+                    />
+                </Button>
                     , 
                     width:80, 
                     filtering:false,
                     sortable:false},
             {cellRenderer: params=>
                 <AddTraining 
-                saveTraining={saveTraining} 
-                params={params.data}/>
+                    saveTraining={saveTraining} 
+                    params={params.data}
+                />
                     , 
                     width:110, 
                     filtering:false,
                     sortable:false
                 },
     ])
+    
+    //saveTraining function to be sent to the addTrainings component via the addTrainings button
     const saveTraining=(training)=>{
         fetch('http://traineeapp.azurewebsites.net/api/trainings',{
             method: 'POST',
@@ -195,10 +207,12 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
       
     return(
           <>
-          <h3 style={{margin:'auto', textAlign:'left', width:'90%'}}>
+          <h3 
+            style={{margin:'auto', textAlign:'left', width:'90%'}}>
             Customer Information
           </h3>
-          <div style={{width:'90%'}}>
+          <div 
+            style={{width:'90%'}}>
 
           <AddCustomer saveCustomer={saveCustomer}/>
 

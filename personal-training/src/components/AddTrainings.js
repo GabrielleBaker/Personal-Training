@@ -1,16 +1,19 @@
+//React imports
 import React from 'react';
+//Mui imports
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import Icon from '@mdi/react';
-import { mdiNotePlusOutline } from '@mdi/js';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+//Mdi imports
+import Icon from '@mdi/react';
+import { mdiNotePlusOutline } from '@mdi/js';
 
 
 export default function AddTraining(props){
@@ -26,16 +29,19 @@ export default function AddTraining(props){
         email:'', 
         phone:''
     });
-    
+  
     const[training,setTraining]= React.useState({
         date:'',
         duration:'',
         activity:'',
-        customer:'',
+        customer:[],
     });
-    const customerLink= [props.params.links[0].href];
-    // 
+  
+    const[customerLink,setCustomerLink]= React.useState('')
     
+    //opening the dialog form 
+    //take the data of the customer and set it to the customer const so we can check 
+    //that its the correct customer and link the new training to that customer
     const handleClickOpen = () => {
         setOpen(true);
         setCustomerdetail({
@@ -46,37 +52,56 @@ export default function AddTraining(props){
             city:props.params.city,
             email:props.params.email,
             phone:props.params.phone
-          })
-          setTraining({...training.customer, customerLink})
+          });
+        setCustomerLink(JSON.stringify(props.params.links[0].href));
+        console.log(JSON.stringify(props.params.links[0].href));
+        setTraining({...training.customer,customerLink});
+        console.log(customerLink)
       };
-    
+
+    //close the dialog
       const handleClose = () => {
         setOpen(false);
-
       };
+
+      //mapping the input data to the training const
       const handleInputChange = (event) =>{
         setTraining({...training,
           [event.target.name]:event.target.value
         })
       }
 
+      //use the saveTraining function on CustomerList page via props
+      //to save the const training as a new training
       const addTraining = ()=>{
+        console.log(training);
         props.saveTraining(training);
         handleClose();
       }
+      //handling of the datepicker to set the date picked to the training const
       const ChangeDate=(date)=>{
         setTraining({...training.date,date})
       }
-      
+      /*const custLink=(link)=>{
+        setTraining({...training.customer,link})
+      }*/
+
     return(
-    <div>
-      <Button  color='primary' onClick={handleClickOpen}>
-      <Icon path={mdiNotePlusOutline} size={1} />
+     <div>
+      <Button  
+        color='primary' 
+        onClick={handleClickOpen}>
+        <Icon 
+          path={mdiNotePlusOutline} 
+          size={1} 
+          />
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Training</DialogTitle>
+        <DialogTitle>
+          New Training
+        </DialogTitle>
             <DialogContent>
-            <TextField
+                <TextField
                     autoFocus
                     InputProps={{
                         disabled: true,}}
@@ -86,15 +111,7 @@ export default function AddTraining(props){
                     label="Customer Name"
                     fullWidth
                 />
-                <TextField
-                    InputProps={{
-                        disabled: true,}}
-                    margin="dense"
-                    name="customer"
-                    value={props.params.links[0].href}
-                    label="Customer"
-                    fullWidth
-                />
+                
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['DatePicker']}>
                     <DatePicker 
@@ -104,7 +121,7 @@ export default function AddTraining(props){
                     onChange={date => ChangeDate(date)}></DatePicker>
                     </DemoContainer>
                     </LocalizationProvider>
-                  
+                    
                 <TextField
                     type="number"
                     margin="dense"
@@ -115,7 +132,6 @@ export default function AddTraining(props){
                     fullWidth
                 />
                 <TextField
-                  
                     margin="dense"
                     name="activity"
                     value={training.activity}
@@ -123,12 +139,16 @@ export default function AddTraining(props){
                     label="Activity"
                     fullWidth
                 />
-               
-                
             </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={addTraining}>Save</Button>
+          <Button 
+            onClick={handleClose}>
+              Cancel
+          </Button>
+          <Button 
+          onClick={addTraining}>
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
         </div>

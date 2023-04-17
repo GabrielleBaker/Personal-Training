@@ -1,10 +1,6 @@
 //React imports
 import React, {useState,useEffect} from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route
-  } from "react-router-dom";
+import {BrowserRouter,Routes,Route} from "react-router-dom";
 //mui imports
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -34,14 +30,18 @@ import Trainings from './Trainings';
 import './Trainings';
 import './HomePage';
 import HomePage from './HomePage';
-import Quotes from './Quotes';
-import './Quotes';
+import Calendar from './Calendar';
+import './Calendar';
 
 
-//code for the drawer adapted from following source
+//code for the drawer adapted from 
 //https://mui.com/material-ui/react-drawer/#drawer
-const drawerWidth = 240;
+//material iu icons source https://mui.com/material-ui/icons/
+//mdi icons source https://pictogrammers.com/library/mdi/
+
 //drawer handling
+const drawerWidth = 240;
+
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
@@ -103,9 +103,18 @@ export default function PersistentDrawerLeft() {
   
 
   return(
-    <Box sx={{ display: 'flex' , backgroundColor: '#ffe6f7'}} >
+    <Box 
+      sx={{ 
+        display: 'flex' , 
+        backgroundColor: '#ffe6f7'
+        }}
+    >
     <CssBaseline />
-    <AppBar position="fixed" open={open} style={{ background: '#ff66b3' }} >
+    <AppBar 
+      position="fixed" 
+      open={open} 
+      style={{ background: '#ff66b3' }} 
+    >
       <Toolbar>
         <IconButton
           color="inherit"
@@ -116,8 +125,12 @@ export default function PersistentDrawerLeft() {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" color="white" noWrap component="a" href="/HomePage">
-          Personal Trainer App
+        <Typography 
+          variant="h6" 
+          color="white" 
+          noWrap component="a" 
+          href="/HomePage">
+            Personal Trainer App
         </Typography>
       </Toolbar>
     </AppBar>
@@ -135,21 +148,26 @@ export default function PersistentDrawerLeft() {
       open={open}
     >
       <DrawerHeader>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton 
+          onClick={handleDrawerClose}>
           {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
         </IconButton>
       </DrawerHeader>
-      <Divider />
-      <List>
-      <ListItem>
-            <ListItemButton component="a" href="/HomePage">
+        <Divider />
+        <List>
+          <ListItem>
+            <ListItemButton 
+            component="a" 
+            href="/HomePage">
               <ListItemIcon>
-                {  
-                <HomeIcon sx={{ color:"#e60099" ,fontSize: 35}}
-                 />
-                 }
+                {  <HomeIcon 
+                    sx={{ 
+                      color:"#e60099" ,
+                      fontSize: 35}}
+                 /> }
               </ListItemIcon>
-              <ListItemText primary="Home" />
+              <ListItemText 
+                primary="Home" />
               <ListItemText  />
               </ListItemButton>
           </ListItem>
@@ -157,8 +175,7 @@ export default function PersistentDrawerLeft() {
             <ListItemButton component="a" href="/Trainings">
               <ListItemIcon>
                 {  
-                //material iu icons source https://mui.com/material-ui/icons/
-                //mdi icons source https://pictogrammers.com/library/mdi/
+                //using mdi icons
                 <Icon path={mdiDumbbell} 
                 size={1.5} 
                 color="#e60099"/>
@@ -219,6 +236,7 @@ export default function PersistentDrawerLeft() {
             <Route exact path="/" element={<HomePage />}/>
             <Route path="/CustomerList" element={<Customerapp />} />
             <Route path="/Trainings" element={<Trainings />} />
+            <Route path="/Calendar" element={<Calendar />} />
         </Routes>
           </BrowserRouter>
     </Main>
