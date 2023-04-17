@@ -5,8 +5,8 @@ import Container from '@mui/material/Container';
 import Weather from './Weather';
 import Box from '@mui/material/Box';
 import Date from './Date';
-import Quote from './Quote';
-import './Quote';
+import Quotes from './Quotes';
+import './Quotes';
 import Button from '@mui/material/Button';
 
 export default function HomePage(){
@@ -40,14 +40,16 @@ export default function HomePage(){
            >
                 <h2>Welcome Trainer!</h2>
             <Box sx={{
-                width:650,
+                width:750,
                 margin:'auto',
-                height: 250,
+                height: 350,
                 backgroundColor: '#ffcce6',
-                borderRadius: '25px'
+                borderRadius: '25px',
+                padding:2,
                 
-            }}><br></br>
-                <Quote/>
+            }}>
+            <h4>Quote of the day:</h4>
+                <Quotes/>
                 <Date></Date>
                 <Weather></Weather>
             </Box>

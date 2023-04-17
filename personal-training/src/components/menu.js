@@ -34,8 +34,8 @@ import Trainings from './Trainings';
 import './Trainings';
 import './HomePage';
 import HomePage from './HomePage';
-import Quote from './Quote';
-import './Quote';
+import Quotes from './Quotes';
+import './Quotes';
 
 
 //code for the drawer adapted from following source
@@ -219,7 +219,6 @@ export default function PersistentDrawerLeft() {
             <Route exact path="/" element={<HomePage />}/>
             <Route path="/CustomerList" element={<Customerapp />} />
             <Route path="/Trainings" element={<Trainings />} />
-            <Route path="/Quote" element={<Quote />} />
         </Routes>
           </BrowserRouter>
     </Main>

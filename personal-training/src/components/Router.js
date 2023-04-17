@@ -18,7 +18,6 @@ export default function Nav(){
         <Link to=' '>HomePage</Link>{' '}
         <Link to='/'>HomePage</Link>{' '}
         <Link to='/HomePage'>HomePage</Link>{' '}
-        <Link to='/Quote'>Quote</Link>{' '}
 
         <Routes>
             <Route path="/CustomerList" element={<Customerapp />} />
