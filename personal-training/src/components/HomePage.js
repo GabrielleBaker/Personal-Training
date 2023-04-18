@@ -4,12 +4,13 @@ import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Container from '@mui/material/Container';
-import Weather from './Weather';
 import Box from '@mui/material/Box';
 //Components
 import Date from './Date';
 import Quotes from './Quotes';
 import './Quotes';
+import Weather from './Weather';
+import Statistics from './Stats'
 
 export default function HomePage(){
     //image list adapted from: 
@@ -30,10 +31,12 @@ export default function HomePage(){
         {
             img: 'calendar.jpg',
             title: 'Calendar',
+            href:"/Calendar"
           },
         {
           img: 'stats2.jpg',
           title: 'Statistics',
+          href:"/Stats"
         },
         
       ];

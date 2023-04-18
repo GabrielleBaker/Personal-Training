@@ -32,6 +32,8 @@ import './HomePage';
 import HomePage from './HomePage';
 import Calendar from './Calendar';
 import './Calendar';
+import Statistics from './Stats';
+import './Stats';
 
 
 //code for the drawer adapted from 
@@ -212,7 +214,7 @@ export default function PersistentDrawerLeft() {
               </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton component="a" href="/Statistics">
+            <ListItemButton component="a" href="/Stats">
               <ListItemIcon>
                 {  
                 <Icon path={mdiChartLine}
@@ -237,6 +239,7 @@ export default function PersistentDrawerLeft() {
             <Route path="/CustomerList" element={<Customerapp />} />
             <Route path="/Trainings" element={<Trainings />} />
             <Route path="/Calendar" element={<Calendar />} />
+            <Route path="/Stats" element={<Statistics />} />
         </Routes>
           </BrowserRouter>
     </Main>

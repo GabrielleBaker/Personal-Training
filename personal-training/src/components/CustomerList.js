@@ -15,7 +15,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCustomer from './AddCustomer';
 import EditCustomer from './EditC'
 import AddTraining from './AddTrainings';
-
 //necessary for the export functionality 
 ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
 
@@ -223,7 +222,7 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
             onClick={() => onExportClick()}>
              Download CSV file
             </Button>
-
+           
           </div>
           <hr style={{ width:'90%'}}></hr>
         <div className='ag-theme-material'

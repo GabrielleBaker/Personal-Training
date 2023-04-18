@@ -32,6 +32,7 @@ export default function Trainings(){
                 , width:80, filtering:false,sortable:false},
     ])
 
+    
     //delete a training
     const deleteTraining =(link)=>{
        console.log(link.data.id);

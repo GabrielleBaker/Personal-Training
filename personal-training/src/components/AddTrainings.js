@@ -30,14 +30,15 @@ export default function AddTraining(props){
         phone:''
     });
   
+    
     const[training,setTraining]= React.useState({
         date:'',
         duration:'',
         activity:'',
-        customer:[],
+        customer:'',
     });
   
-    const[customerLink,setCustomerLink]= React.useState('')
+    const[customerLink,setCustomerLink]= React.useState({link:''})
     
     //opening the dialog form 
     //take the data of the customer and set it to the customer const so we can check 
@@ -53,9 +54,9 @@ export default function AddTraining(props){
             email:props.params.email,
             phone:props.params.phone
           });
-        setCustomerLink(JSON.stringify(props.params.links[0].href));
+        setCustomerLink({link:props.params.links[0].href.toString()});
         console.log(JSON.stringify(props.params.links[0].href));
-        setTraining({...training.customer,customerLink});
+        //setTraining({...training.customer,customerLink});
         console.log(customerLink)
       };
 

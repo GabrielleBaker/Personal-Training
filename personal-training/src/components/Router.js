@@ -5,6 +5,7 @@ import Trainings from './Trainings';
 import HomePage from './HomePage';
 import Calendar from './Calendar';
 import './Calendar';
+import Statistics from './Stats';
 import * as React from "react";
 import {
 BrowserRouter,
@@ -21,6 +22,7 @@ export default function Nav(){
         <Link to='/'>HomePage</Link>{' '}
         <Link to='/HomePage'>HomePage</Link>{' '}
         <Link to='/Calendar'>Calendar</Link>{' '}
+        <Link to='/Stats'>Statistics</Link>{' '}
 
         <Routes>
             <Route path="/CustomerList" element={<Customerapp />} />
@@ -28,6 +30,7 @@ export default function Nav(){
             <Route path="/HomePage" element={<HomePage />}/>
             <Route exact path="/" element={<HomePage />}/>
             <Route exact path="/Calendar" element={<Calendar />}/>
+            <Route exact path="/Stats" element={<Statistics />}/>
         </Routes>
         </BrowserRouter>
 }
