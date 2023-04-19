@@ -1,14 +1,16 @@
+//React imports
 import React,{useState,useEffect} from 'react';
+//fullcalendar imports
 import Fullcalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import multiMonthPlugin from '@fullcalendar/multimonth';
+//Mui imports
 import Container from '@mui/material/Container';
 
 // code adapted from
 //https://fullcalendar.io/docs
-//https://www.youtube.com/watch?v=X2zLbKimvQQ
 
 function Calendar() {
     const [events, setEvents] = useState([{
@@ -18,7 +20,6 @@ function Calendar() {
     }])
 
     //get the customer & trainings data
-
     useEffect(() => {
         fetch('https://traineeapp.azurewebsites.net/gettrainings', {
         })
@@ -26,11 +27,14 @@ function Calendar() {
                 if (response.ok) {
                     return response.json();
                 } else {
-                    throw new Error(response.status);
+                    alert('Error fetching data');
                 }
             }).then(responseData => {
                 let data = [];
+                //https://www.w3schools.com/jsref/jsref_map.asp
+                //map received data to a new array, use push to append items to the end
                 responseData.map(item =>
+                    //https://www.w3schools.com/jsref/jsref_push.asp
                     data.push(
                         {
                             start: item.date,
@@ -41,7 +45,7 @@ function Calendar() {
                         }
                     )
                 )
-
+                //use the temporary array data to set events
                 setEvents({ events: data })
             }).catch(err => console.error(err))
     }, [])
@@ -57,13 +61,18 @@ function Calendar() {
                 padding:3
                 }}>
         <Fullcalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin,multiMonthPlugin]}
-          initialView={"dayGridMonth"}
-          selectable='true'
-          headerToolbar={{
-            start: "today prev,next", 
-            center: "title",
-            end: "timeGridDay,timeGridWeek,dayGridMonth,multiMonthYear", 
+            plugins={[
+                dayGridPlugin, 
+                timeGridPlugin, 
+                interactionPlugin,
+                multiMonthPlugin
+            ]}
+            initialView={"dayGridMonth"}
+            selectable='true'
+            headerToolbar={{
+                start: "today prev,next", 
+                center: "title",
+                end: "timeGridDay,timeGridWeek,dayGridMonth,multiMonthYear", 
           }}
           events={events}
           

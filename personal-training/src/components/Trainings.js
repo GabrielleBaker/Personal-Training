@@ -1,10 +1,14 @@
+//React imports
 import React, {useState,useEffect} from 'react';
+//Aggrid imports
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
+//Mui imports
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import { Snackbar } from '@mui/material';
+//daysjs import
 import dayjs from 'dayjs';
 
 export default function Trainings(){
@@ -15,6 +19,7 @@ export default function Trainings(){
 
     const[open,setOpen]=useState(false);
 
+    //ag grid data
     const[columnDefs]=useState([
         {field:'date',valueFormatter: (params) => dayjs(params.value).format('YYYY-MM-DD'),
          headerName: 'Date',sortable:true,filtering:true, filter: 'agTextColumnFilter'},
@@ -51,6 +56,7 @@ export default function Trainings(){
         .catch(err=> console.log(err))
     }}
 
+    //get all trainings
     const getTrainings = () =>{
         fetch('https://traineeapp.azurewebsites.net/gettrainings')
         .then(response=>{
@@ -75,8 +81,6 @@ export default function Trainings(){
         style={{width:'90%', height: 600, margin:'auto'}}
         >
             <AgGridReact
-              //  ref={gridRef}
-              //  onGridReady={ params => gridRef.current = params.api }
                 rowSelection="single"
                 rowData={trainings}
                 animateRows= {true}

@@ -7,6 +7,7 @@ export default function Weather(){
         const[image, setImage] = React.useState('');
         
 
+        //get weather info from api
         React.useEffect(() => {
             fetch('http://api.openweathermap.org/data/2.5/weather?q=Helsinki,fi&units=metric&APPID=5a00724f1104fa2953b06e8198eadca9')
             .then(response => response.json())

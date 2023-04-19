@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCustomer from './AddCustomer';
 import EditCustomer from './EditC'
 import AddTraining from './AddTrainings';
+
 //necessary for the export functionality 
 ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
 
@@ -117,7 +118,7 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
                 },
     ])
     
-    //saveTraining function to be sent to the addTrainings component via the addTrainings button
+//saveTraining function to be sent to the addTrainings component via the addTrainings button
     const saveTraining=(training)=>{
         fetch('http://traineeapp.azurewebsites.net/api/trainings',{
             method: 'POST',
@@ -158,7 +159,7 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
         .then(res=> getCustomers())
         .catch(err=>console.error(err))
     }
-//update an existing customer -use PUT method-
+//update an existing customer -use PUT method, sent to edit C via props
     const updateCustomer=(customer,link)=>{
         fetch(link,{
             method: 'PUT',
@@ -171,7 +172,9 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
         .then(res=> getCustomers())
         .catch(err=>console.error(err))
     }
+
 //delete a customer, link is params which is sent in column defs
+//uses customer's unique id in their href link in order to find and delete them
     const deleteCustomer =(link)=>{
         if(window.confirm('Are you sure?')){
             //follow this path to access the link which contains customer id
@@ -187,15 +190,14 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
         })
         .catch(err=> console.log(err))
     }}
+
     //EXPORT functionality
-   
-    
-    let gridApi;
+    /*let gridApi;
 
     const onGridReady=params=>{
         gridApi=params.api
        // console.dir(gridApi)
-    }
+    }*/
 
     function onExportClick() {
        // console.dir(gridApi)
@@ -213,10 +215,15 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
           <div 
             style={{width:'90%'}}>
 
-          <AddCustomer saveCustomer={saveCustomer}/>
+          <AddCustomer 
+            saveCustomer={saveCustomer}
+         />
 
           <Button 
-            style={{margin:10,padding:10,float:'right'}} 
+            style={{
+                margin:10,
+                padding:10,
+                float:'right'}} 
             variant="contained" 
             color='secondary' 
             onClick={() => onExportClick()}>
@@ -224,9 +231,17 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
             </Button>
            
           </div>
-          <hr style={{ width:'90%'}}></hr>
+          <hr style={{ 
+            width:'90%' 
+            }}
+            >
+            </hr>
         <div className='ag-theme-material'
-        style={{width:'90%', height: 600, margin:'auto'}}
+        style={{
+            width:'90%', 
+            height: 600, 
+            margin:'auto'
+            }}
         >
             <AgGridReact
                 rowSelection="single"
@@ -235,7 +250,7 @@ ModuleRegistry.registerModules([ClientSideRowModelModule, CsvExportModule]);
                 columnDefs={columnDefs}
                 pagination={true}
                 paginationPageSize={10}
-                onGridReady={onGridReady} 
+                //onGridReady={onGridReady} 
                 ref={gridRef}
             />
         

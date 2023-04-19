@@ -6,10 +6,7 @@ export default function Date(){
 
         return(
             <div>
-
             <strong> Time:</strong> {time} <strong> Date:</strong>  {today}
-            
-           
             </div>
         )
 }

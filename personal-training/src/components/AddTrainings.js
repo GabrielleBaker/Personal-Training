@@ -1,5 +1,5 @@
 //React imports
-import React from 'react';
+import React, { useEffect } from 'react';
 //Mui imports
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -18,48 +18,47 @@ import { mdiNotePlusOutline } from '@mdi/js';
 
 export default function AddTraining(props){
     const [open, setOpen] = React.useState(false);
+    const[ready,setReady]=React.useState(false);
 
-   //get customer from props to display name in new training dialog
-    const [customerdetail,setCustomerdetail]=React.useState({
+   //the one customer we want to make a training for
+    const [customer,setCustomer]=React.useState({
         firstname:'', 
         lastname:'', 
-        streetaddress:'', 
-        postcode:'', 
-        city:'', 
-        email:'', 
-        phone:''
     });
+    //the href we need to link customer and training
+    const[customerLink,setCustomerLink]= React.useState('');
   
-    
+    //the new training
     const[training,setTraining]= React.useState({
         date:'',
-        duration:'',
+        duration:'0',
         activity:'',
         customer:'',
     });
   
-    const[customerLink,setCustomerLink]= React.useState({link:''})
-    
     //opening the dialog form 
-    //take the data of the customer and set it to the customer const so we can check 
-    //that its the correct customer and link the new training to that customer
     const handleClickOpen = () => {
         setOpen(true);
-        setCustomerdetail({
-            firstname:props.params.firstname, 
-            lastname:props.params.lastname,
-            streetaddress:props.params.streetaddress,
-            postcode:props.params.postcode,
-            city:props.params.city,
-            email:props.params.email,
-            phone:props.params.phone
-          });
-        setCustomerLink({link:props.params.links[0].href.toString()});
-        console.log(JSON.stringify(props.params.links[0].href));
-        //setTraining({...training.customer,customerLink});
-        console.log(customerLink)
+
+    //set customer name for input field 
+    //(also doubles as a checker for correct customer called)
+        setCustomer({
+          firstname:props.params.firstname, 
+          lastname:props.params.lastname,
+        });
+
+    //set customerlink (this link is what links the new training to the customer)
+        setCustomerLink(props.params.links[0].href);
+        
+    //use ready so we only work with the customer link once its been established
+        setReady(true);
       };
 
+      if(ready){
+        setTraining({...training,customer:customerLink})
+        //console.log(training.customer)
+        setReady(false)}
+   
     //close the dialog
       const handleClose = () => {
         setOpen(false);
@@ -75,18 +74,15 @@ export default function AddTraining(props){
       //use the saveTraining function on CustomerList page via props
       //to save the const training as a new training
       const addTraining = ()=>{
-        console.log(training);
+        //console.log(training);
         props.saveTraining(training);
         handleClose();
       }
       //handling of the datepicker to set the date picked to the training const
       const ChangeDate=(date)=>{
-        setTraining({...training.date,date})
+        setTraining({...training,date:date})
       }
-      /*const custLink=(link)=>{
-        setTraining({...training.customer,link})
-      }*/
-
+   
     return(
      <div>
       <Button  
@@ -108,7 +104,7 @@ export default function AddTraining(props){
                         disabled: true,}}
                     margin="dense"
                     name="cust"
-                    value={customerdetail.firstname + " "+ customerdetail.lastname}
+                    value={customer.firstname + " "+ customer.lastname}
                     label="Customer Name"
                     fullWidth
                 />

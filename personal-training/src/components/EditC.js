@@ -1,13 +1,19 @@
+//React imports 
 import React from 'react';
+//Mui imports
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+//Mdi imports
 import Icon from '@mdi/react';
 import { mdiAccountEdit } from '@mdi/js';
+
+
 export default function EditCustomer(props){
+
     const [open, setOpen] = React.useState(false);
     const [customer, setCustomer]= React.useState({
         firstname:'', 
@@ -19,6 +25,7 @@ export default function EditCustomer(props){
         phone:''
     })
 
+    //on form open, get customer info from props
     const handleClickOpen = () => {
      // console.log(props.params)
       setCustomer({
@@ -33,15 +40,19 @@ export default function EditCustomer(props){
         setOpen(true);
       };
     
+      //handle close dialog
       const handleClose = () => {
         setOpen(false);
       };
+      //map changes from the input fields to the customer const
       const handleInputChange = (event) =>{
         setCustomer({...customer,
           [event.target.name]:event.target.value
         })
       }
 
+      //saves the new customer using the updatecustomer method via props
+      //the href contains the unique id of each customer
       const updateCustomer = ()=>{
         props.updateCustomer(customer,props.params.links[0].href);
         handleClose();
@@ -50,11 +61,19 @@ export default function EditCustomer(props){
       
     return(
     <div>
-      <Button  onClick={handleClickOpen}>
-      <Icon path={mdiAccountEdit} size={1.3} />
+      <Button  
+        onClick={handleClickOpen}>
+        <Icon 
+          path={mdiAccountEdit} 
+          size={1.3} 
+          />
       </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Customer</DialogTitle>
+      <Dialog 
+        open={open} 
+        onClose={handleClose}>
+        <DialogTitle>
+            Edit Customer
+          </DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
